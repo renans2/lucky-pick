@@ -11,10 +11,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <!-- ---- -->
 
-    <title>draw-me</title>
+    <title>LuckyPick</title>
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      let theme;
+      const savedTheme = localStorage.getItem("theme");
+
+      if (savedTheme) {
+        theme = JSON.parse(savedTheme);
+      } else {
+        theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        localStorage.setItem("theme", JSON.stringify(theme));
+      }
+
+      document.documentElement.dataset.theme = theme;
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

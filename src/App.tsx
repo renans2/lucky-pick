@@ -3,7 +3,7 @@ import Main from "./components/layout/Main";
 
 function App() {
   return (
-    <div className="h-screen bg-background text-white overflow-y-auto">
+    <div className="h-screen bg-background text-text overflow-y-auto">
       <Header />
       <Main />
     </div>

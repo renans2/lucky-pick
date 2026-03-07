@@ -6,8 +6,24 @@
   font-style: normal;
 }
 
+html[data-theme="dark"] {
+  --background: #121212;
+  --surface: #252525;
+  --surface-orange: #FF8307;
+  --text: #FFF;
+}
+
+html[data-theme="light"] {
+  --background: #F4F4F4;
+  --surface: #FFFFFF;
+  --surface-orange: #FF8307;
+  --text: #202020;
+}
+
 @theme {
-  --color-surface-orange: #FF8307;
-  --color-surface: #252525;
-  --color-background: #121212
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-orange: var(--surface-orange);
+  --color-text: var(--text);
+  --shadow-surface: 0 3px 2px rgba(0,0,0,0.25)
 }
