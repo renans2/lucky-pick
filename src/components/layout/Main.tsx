@@ -2,6 +2,7 @@ import IntegerInput from "../ui/IntegerInput";
 import { drawNumbers, drawNumbersWithoutRepetition } from "../../utils/draw";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import Number from "../ui/Number";
+import { IoCopyOutline } from "react-icons/io5";
 
 export default function Main() {
   const [amountInput, setAmountInput] = useLocalStorage("draw:amount", "1");
@@ -47,6 +48,10 @@ export default function Main() {
     } else {
       setResult(drawNumbersWithoutRepetition(amount, min, max));
     }
+  };
+
+  const copy = () => {
+    navigator.clipboard.writeText(sortedResult.join(", "));
   };
 
   // const resetInputs = () => {
@@ -123,62 +128,70 @@ export default function Main() {
       </div>
       <button
         onClick={pick}
-        className="bg-surface-orange w-full text-2xl font-bold py-2 rounded-xl cursor-pointer"
+        className="active:scale-95 transition shadow-surface text-white text-shadow-[2px_2px_2px_rgba(0,0,0,0.5)] bg-surface-orange w-full text-2xl font-bold py-2 rounded-xl cursor-pointer"
       >
         Pick
       </button>
       {result.length > 0 && (
         <div className="space-y-6">
           <p className="text-center text-2xl">Results</p>
-          <div className="flex items-center gap-4">
-            <span>Sort order:</span>
-            <label
-              htmlFor="none"
-              className="flex items-center gap-1 text-sm cursor-pointer"
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+            <div className="flex items-center gap-4">
+              <span className="font-bold">Sort order:</span>
+              <label
+                htmlFor="none"
+                className="flex items-center gap-1 text-sm cursor-pointer"
+              >
+                <input
+                  type="radio"
+                  value="none"
+                  checked={sort === "none"}
+                  onChange={() => setSort("none")}
+                  name="sort"
+                  id="none"
+                  className="accent-surface-orange w-4 h-4 cursor-pointer"
+                />
+                <span>Draw</span>
+              </label>
+              <label
+                htmlFor="asc"
+                className="flex items-center gap-1 text-sm cursor-pointer"
+              >
+                <input
+                  type="radio"
+                  value="asc"
+                  checked={sort === "asc"}
+                  onChange={() => setSort("asc")}
+                  name="sort"
+                  id="asc"
+                  className="accent-surface-orange w-4 h-4 cursor-pointer"
+                />
+                <span>Ascending</span>
+              </label>
+              <label
+                htmlFor="desc"
+                className="flex items-center gap-1 text-sm cursor-pointer"
+              >
+                <input
+                  type="radio"
+                  value="desc"
+                  checked={sort === "desc"}
+                  onChange={() => setSort("desc")}
+                  name="sort"
+                  id="desc"
+                  className="accent-surface-orange w-4 h-4 cursor-pointer"
+                />
+                <span>Descending</span>
+              </label>
+            </div>
+            <button
+              onClick={copy}
+              className="hover:scale-105 transition shadow-surface bg-surface px-3 py-1.5 rounded-lg font-bold cursor-pointer flex items-center gap-2 justify-center"
             >
-              <input
-                type="radio"
-                value="none"
-                checked={sort === "none"}
-                onChange={() => setSort("none")}
-                name="sort"
-                id="none"
-                className="accent-surface-orange w-4 h-4 cursor-pointer"
-              />
-              <span>Draw</span>
-            </label>
-            <label
-              htmlFor="asc"
-              className="flex items-center gap-1 text-sm cursor-pointer"
-            >
-              <input
-                type="radio"
-                value="asc"
-                checked={sort === "asc"}
-                onChange={() => setSort("asc")}
-                name="sort"
-                id="asc"
-                className="accent-surface-orange w-4 h-4 cursor-pointer"
-              />
-              <span>Ascending</span>
-            </label>
-            <label
-              htmlFor="desc"
-              className="flex items-center gap-1 text-sm cursor-pointer"
-            >
-              <input
-                type="radio"
-                value="desc"
-                checked={sort === "desc"}
-                onChange={() => setSort("desc")}
-                name="sort"
-                id="desc"
-                className="accent-surface-orange w-4 h-4 cursor-pointer"
-              />
-              <span>Descending</span>
-            </label>
+              <IoCopyOutline size={20} /> COPY
+            </button>
           </div>
-          <div className="flex items-center justify-center gap-4 flex-wrap">
+          <div className="flex items-center justify-center gap-3 flex-wrap">
             {sortedResult.map((n, i) => (
               <Number key={i} number={n} />
             ))}

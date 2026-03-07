@@ -54,7 +54,7 @@ export default function IntegerInput({
         value={value}
         onChange={handleChange}
         type="text"
-        className="w-20 bg-surface rounded-xl p-2 text-center font-bold text-2xl focus:outline-3 outline-surface-orange"
+        className="shadow-surface w-20 bg-surface rounded-xl p-2 text-center font-bold text-2xl focus:outline-3 outline-surface-orange"
         onBlur={handleLocalBlur}
       />
       <button
