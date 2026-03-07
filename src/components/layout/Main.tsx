@@ -17,19 +17,21 @@ export default function Main() {
     "none",
   );
 
+  const amount = parseInt(amountInput);
+  const minRaw = parseInt(minInput);
+  const maxRaw = parseInt(maxInput);
+
   const forceAllowRepeated =
-    parseInt(amountInput) > parseInt(maxInput) - parseInt(minInput) + 1;
+    minRaw > maxRaw
+      ? amount > minRaw - maxRaw + 1
+      : amount > maxRaw - minRaw + 1;
 
   const sortedResult =
     sort === "none"
       ? result
       : [...result].sort((a, b) => (sort === "asc" ? a - b : b - a));
 
-  const draw = () => {
-    const amount = parseInt(amountInput);
-    const minRaw = parseInt(minInput);
-    const maxRaw = parseInt(maxInput);
-
+  const pick = () => {
     let min, max;
 
     if (minRaw < maxRaw) {
@@ -47,12 +49,12 @@ export default function Main() {
     }
   };
 
-  const resetInputs = () => {
-    setAmountInput("1");
-    setMinInput("1");
-    setMaxInput("10");
-    setAllowRepeated(false);
-  };
+  // const resetInputs = () => {
+  //   setAmountInput("1");
+  //   setMinInput("1");
+  //   setMaxInput("10");
+  //   setAllowRepeated(false);
+  // };
 
   return (
     <main className="max-w-3xl mx-auto py-8 px-4 space-y-10">
@@ -120,14 +122,14 @@ export default function Main() {
         </label>
       </div>
       <button
-        onClick={draw}
+        onClick={pick}
         className="bg-surface-orange w-full text-2xl font-bold py-2 rounded-xl cursor-pointer"
       >
-        Draw
+        Pick
       </button>
       {result.length > 0 && (
         <div className="space-y-6">
-          <p className="text-center text-3xl">Results</p>
+          <p className="text-center text-2xl">Results</p>
           <div className="flex items-center gap-4">
             <span>Sort order:</span>
             <label
