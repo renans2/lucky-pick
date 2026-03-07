@@ -1,33 +1,57 @@
-import { useState } from "react";
 import IntegerInput from "../ui/IntegerInput";
 import { drawNumbers, drawNumbersWithoutRepetition } from "../../utils/draw";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import Number from "../ui/Number";
 
 export default function Main() {
-  const [amountInput, setAmountInput] = useState("1");
-  const [minInput, setMinInput] = useState("1");
-  const [maxInput, setMaxInput] = useState("10");
-  const [allowRepeated, setAllowRepeated] = useState(false);
-  const [results, setResults] = useState<number[]>([]);
-  const [sort, setSort] = useState<"none" | "asc" | "desc">("none");
+  const [amountInput, setAmountInput] = useLocalStorage("draw:amount", "1");
+  const [minInput, setMinInput] = useLocalStorage("draw:min", "1");
+  const [maxInput, setMaxInput] = useLocalStorage("draw:max", "10");
+  const [allowRepeated, setAllowRepeated] = useLocalStorage(
+    "draw:allow_repeated",
+    false,
+  );
+  const [result, setResult] = useLocalStorage<number[]>("draw:result", []);
+  const [sort, setSort] = useLocalStorage<"none" | "asc" | "desc">(
+    "draw:sort",
+    "none",
+  );
 
   const forceAllowRepeated =
     parseInt(amountInput) > parseInt(maxInput) - parseInt(minInput) + 1;
 
-  const sortedResults =
+  const sortedResult =
     sort === "none"
-      ? results
-      : [...results].sort((a, b) => (sort === "asc" ? a - b : b - a));
+      ? result
+      : [...result].sort((a, b) => (sort === "asc" ? a - b : b - a));
 
-  const getNumbers = () => {
+  const draw = () => {
     const amount = parseInt(amountInput);
-    const min = parseInt(minInput);
-    const max = parseInt(maxInput);
+    const minRaw = parseInt(minInput);
+    const maxRaw = parseInt(maxInput);
+
+    let min, max;
+
+    if (minRaw < maxRaw) {
+      min = minRaw;
+      max = maxRaw;
+    } else {
+      min = maxRaw;
+      max = minRaw;
+    }
 
     if (allowRepeated || forceAllowRepeated) {
-      setResults(drawNumbers(amount, min, max));
+      setResult(drawNumbers(amount, min, max));
     } else {
-      setResults(drawNumbersWithoutRepetition(amount, min, max));
+      setResult(drawNumbersWithoutRepetition(amount, min, max));
     }
+  };
+
+  const resetInputs = () => {
+    setAmountInput("1");
+    setMinInput("1");
+    setMaxInput("10");
+    setAllowRepeated(false);
   };
 
   return (
@@ -96,12 +120,12 @@ export default function Main() {
         </label>
       </div>
       <button
-        onClick={getNumbers}
+        onClick={draw}
         className="bg-surface-orange w-full text-2xl font-bold py-2 rounded-xl cursor-pointer"
       >
         Draw
       </button>
-      {results.length > 0 && (
+      {result.length > 0 && (
         <div className="space-y-6">
           <p className="text-center text-3xl">Results</p>
           <div className="flex items-center gap-4">
@@ -153,13 +177,8 @@ export default function Main() {
             </label>
           </div>
           <div className="flex items-center justify-center gap-4 flex-wrap">
-            {sortedResults.map((n, i) => (
-              <div
-                key={i}
-                className="text-2xl font-medium flex items-center justify-evenly rounded-full px-5 h-15 bg-surface"
-              >
-                {n}
-              </div>
+            {sortedResult.map((n, i) => (
+              <Number key={i} number={n} />
             ))}
           </div>
         </div>
