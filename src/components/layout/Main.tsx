@@ -87,7 +87,7 @@ export default function Main() {
         />
       </div>
       {/* Mobile */}
-      <div className="md:hidden flex flex-col gap-5 text-3xl">
+      <div className="md:hidden flex flex-col gap-2 text-2xl">
         <div className="flex items-center gap-4">
           <span>Pick</span>
           <IntegerInput
