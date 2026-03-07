@@ -23,7 +23,7 @@ export default function IntegerInput({
     }
   };
 
-  const handleBlur = () => {
+  const handleLocalBlur = () => {
     if (onlyPositiveNumbers) {
       if (value === "") setValue("1");
       else if (value.charAt(0) === "-") setValue((prev) => prev.slice(1));
@@ -55,7 +55,7 @@ export default function IntegerInput({
         onChange={handleChange}
         type="text"
         className="w-20 bg-surface rounded-xl p-2 text-center font-bold text-2xl focus:outline-3 outline-surface-orange"
-        onBlur={handleBlur}
+        onBlur={handleLocalBlur}
       />
       <button
         className="hover:scale-110 cursor-pointer"
