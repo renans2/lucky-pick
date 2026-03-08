@@ -1,5 +1,5 @@
 // made by chatGPT
-export function drawNumbersWithoutRepetition(
+export function pickNumbersWithoutRepetition(
   amount: number,
   min: number,
   max: number,
@@ -21,7 +21,8 @@ export function drawNumbersWithoutRepetition(
   return result;
 }
 
-export function drawNumbers(amount: number, min: number, max: number) {
+// made by me :)
+export function pickNumbers(amount: number, min: number, max: number) {
   let result = [];
 
   for (let i = 0; i < amount; i++) {
